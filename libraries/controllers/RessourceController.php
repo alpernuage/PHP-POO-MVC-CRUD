@@ -10,8 +10,8 @@ require_once('libraries/Http.php');
 class RessourceController
 {
     protected $model;
-    protected $categorieModel;
-    protected $categorie;
+    // protected $categorieModel;
+    // protected $categorie;
 
     public function __construct()
     {
@@ -25,15 +25,15 @@ class RessourceController
         /**
          * 2. Récupération des ressource
          */
-        $ressources = $this->model->findAll();
+        $ressources = $this->model->findRessourceDetails();
         
         /**
          * 3. Affichage
          */
         $pageTitre = "Accueil";
-        $categorieModel = new \Models\Categorie();
-        $categorie = $categorieModel->libelle;
-        \Renderer::render('ressources/index', compact('pageTitre', 'ressources', 'categorie'));
+        // $categorieModel = new \Models\Categorie();
+        // $categorie = $categorieModel->libelle;
+        \Renderer::render('ressources/index', compact('pageTitre', 'ressources'));
     }
 
     // Montrer UNE ressource
