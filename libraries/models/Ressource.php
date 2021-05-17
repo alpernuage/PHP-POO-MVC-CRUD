@@ -54,18 +54,18 @@ class Ressource extends Model
      * @param integer $id
      * @return void
      */
-    public function findCategory(int $id)
-    {
-        $query = $this->pdo->prepare("SELECT ressource, categorie.libelle FROM categorie INNER JOIN ressource ON categorie.id = ressource.categorie_id WHERE id = :ressource_id");
+    // public function findCategory(int $id)
+    // {
+    //     $query = $this->pdo->prepare("SELECT ressource, categorie.libelle FROM categorie INNER JOIN ressource ON categorie.id = ressource.categorie_id WHERE id = :ressource_id");
 
-        // On exécute la requête en précisant le paramètre :ressource_id 
-        $query->execute(['ressource_id' => $id]);
+    //     // On exécute la requête en précisant le paramètre :ressource_id 
+    //     $query->execute(['ressource_id' => $id]);
 
-        // On fouille le résultat pour en extraire les données réelles de la ressource
-        $categorie = $query->fetch();
+    //     // On fouille le résultat pour en extraire les données réelles de la ressource
+    //     $categorie = $query->fetch();
 
-        return $categorie;
-    }
+    //     return $categorie;
+    // }
 
     // /**
     //  * Retourne la liste des ressources classées par date de création

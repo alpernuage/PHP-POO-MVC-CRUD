@@ -10,14 +10,15 @@ require_once('libraries/Http.php');
 class RessourceController
 {
     protected $model;
-    // protected $categorieModel;
+    protected $categorieModel;
+    protected $categorie;
 
     public function __construct()
     {
         $this->model = new \Models\Ressource();
-        $this->categorieModel = new \Models\Categorie();
+        // $this->categorieModel = new \Models\Categorie();
     }
-
+    
     // Montrer la liste
     public function index()
     {
@@ -25,12 +26,14 @@ class RessourceController
          * 2. Récupération des ressource
          */
         $ressources = $this->model->findAll();
-
+        
         /**
          * 3. Affichage
          */
         $pageTitre = "Accueil";
-        \Renderer::render('ressources/index', compact('pageTitre', 'ressources'));
+        $categorieModel = new \Models\Categorie();
+        $categorie = $categorieModel->libelle;
+        \Renderer::render('ressources/index', compact('pageTitre', 'ressources', 'categorie'));
     }
 
     // Montrer UNE ressource
@@ -58,7 +61,7 @@ class RessourceController
          * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur
          */
         $ressource = $this->model->find($ressource_id);
-        $categorie = $this->model->findCategory($ressource_id);
+        // $categorie = $this->model->findCategory($ressource_id);
         
         // $categorie = $categorieModel->find($ressource_id);
 
