@@ -56,11 +56,11 @@
                                 </ul>
                                 <ul class="list-group list-group-horizontal">
                                     <li class="list-group-item w-50"><small>Type ressource</small></li>
-                                    <li class="list-group-item w-50">A third item</li>
+                                    <li class="list-group-item w-50"><?= $ressource['typeRessource'] ?></li>
                                 </ul>
                                 <ul class="list-group list-group-horizontal">
                                     <li class="list-group-item w-50"><small>Statut ressource</small></li>
-                                    <li class="list-group-item w-50">A third item</li>
+                                    <li class="list-group-item w-50"><?= $ressource['statutRessource'] ?></li>
                                 </ul>
                             </div>
                         </div>

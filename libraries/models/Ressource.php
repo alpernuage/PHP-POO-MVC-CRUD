@@ -56,7 +56,15 @@ class Ressource extends Model
      */
     public function findRessourceDetails()
     {
-        $resultats = $this->pdo->query("SELECT ressource.titre,ressource.auteur_id, ressource.statut_ressource_id, ressource.type_ressource_id, ressource.lien_serveur, ressource.date_creation, categorie.libelle AS categorie FROM ressource INNER JOIN categorie ON categorie.id = ressource.categorie_id ORDER BY date_creation DESC");
+        $resultats = $this->pdo->query("SELECT ressource.id, ressource.titre, ressource.lien_serveur, ressource.date_creation, 
+        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie 
+        -- auteur.libelle AS auteur
+        FROM ressource 
+        INNER JOIN categorie ON categorie.id = ressource.categorie_id 
+        -- INNER JOIN auteur ON auteur.id = ressource.auteur_id 
+        INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
+        INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
+        ORDER BY date_creation DESC");
 
         // On exécute la requête en précisant le paramètre :ressource_id 
         // $query->execute(['ressource_id' => id]);
