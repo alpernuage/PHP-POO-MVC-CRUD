@@ -27,14 +27,14 @@
     </ol>
 </nav>
 
-<?php foreach ($ressources as $ressource) : ?>
 
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <h1>Nos ressources</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1>Nos ressources</h1>
 
+            <?php foreach ($ressources as $ressource) : ?>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -66,11 +66,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php endforeach ?>
+
         </div>
     </div>
+</div>
 
-<?php endforeach ?>
 
 <!-- <?php foreach ($ressources as $ressource) : ?>
         <h2><?= $ressource['titre'] ?></h2>
