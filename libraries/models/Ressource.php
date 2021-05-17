@@ -7,13 +7,13 @@ require_once('libraries/models/Categorie.php');
 
 class Ressource extends Model
 {
-    private $id;
-    private $categorie_id;
-    private $auteur_id;
-    private $type_ressource;
-    private $titre;
-    private $lien_serveur;
-    private $date_creation;
+    // private $id;
+    // private $categorie_id;
+    // private $auteur_id;
+    // private $type_ressource;
+    // private $titre;
+    // private $lien_serveur;
+    // private $date_creation;
 
     /**
      * Retourne la liste des ressources classées par date de création
@@ -37,7 +37,15 @@ class Ressource extends Model
      */
     public function find(int $id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM ressource WHERE id = :ressource_id");
+        $query = $this->pdo->prepare("SELECT ressource.id, ressource.titre, ressource.lien_serveur, ressource.date_creation, 
+        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie 
+        -- auteur.libelle AS auteur
+        FROM ressource 
+        INNER JOIN categorie ON categorie.id = ressource.categorie_id 
+        -- INNER JOIN auteur ON auteur.id = ressource.auteur_id 
+        INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
+        INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
+        ORDER BY date_creation DESC");
 
         // On exécute la requête en précisant le paramètre :ressource_id 
         $query->execute(['ressource_id' => $id]);

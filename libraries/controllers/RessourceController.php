@@ -103,5 +103,36 @@ class RessourceController
          * 5. Redirection vers la page d'accueil
          */
         \Http::redirect("index.php");
+    }    
+    
+    // Modifier une ressource
+    public function modify()
+    {
+        /**
+         * 1. On vérifie que le GET possède bien un paramètre "id" (delete.php?id=202) et que c'est bien un nombre
+         */
+        if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+            die("Ho ?! Tu n'as pas précisé l'id de la ressource !");
+        }
+
+        $id = $_GET['id'];
+
+        /**
+         * 3. Vérification que la ressource existe bel et bien
+         */
+        $ressource = $this->model->find($id);
+        if (!$ressource) {
+            die("La ressource $id n'existe pas, vous ne pouvez donc pas le supprimer !");
+        }
+
+        /**
+         * 4. Réelle modification de la ressource
+         */
+        $this->model->modify($id);
+
+        /**
+         * 5. Redirection vers la page d'accueil
+         */
+        \Http::redirect("index.php");
     }
 }

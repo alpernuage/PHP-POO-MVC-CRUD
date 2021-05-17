@@ -32,7 +32,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h1>Nos ressources</h1>
+            <div class="row">
+                <div class="col mb-2">
+                    <h1>Nos ressources</h1>
+                    <a href="ressource.php?id=<?= $ressource['id'] ?>" class="btn btn-success float-end"><span class="h5">+</span> Nouvelle ressource</a>
+                </div>
+            </div>
 
             <?php foreach ($ressources as $ressource) : ?>
                 <div class="card">
@@ -41,7 +46,7 @@
                             <div class="col-9">
                                 <h2 class="card-title"><?= $ressource['titre'] ?></h2>
                                 <h5 class="card-subtitle mb-2 text-muted">Catégorie : <span class="badge bg-secondary"><?= $ressource['categorie'] ?></span></h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <p class="card-text"><?= $ressource['lien_serveur'] ?></p>
                                 <a href="ressource.php?id=<?= $ressource['id'] ?>" class="btn btn-outline-primary">Lire la suite</a>
                                 <a href="delete-ressource.php?id=<?= $ressource['id'] ?>" class="btn btn-outline-danger" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cette ressource ?!`)">Supprimer</a>
                             </div>
