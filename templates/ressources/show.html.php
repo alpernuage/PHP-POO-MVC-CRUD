@@ -38,7 +38,10 @@
                                 <li class="list-group-item w-25"><small>Statut ressource</small></li>
                                 <li class="list-group-item w-75"><?= $ressource['statutRessource'] ?></li>
                             </ul>
-                            <a href="modifier-ressource.php?id=<?= $ressource['id'] ?>" class="mt-3 btn btn-outline-success" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cette ressource ?!`)">Modifier</a>
+                            <div class="mt-3 btn-group" role="group" aria-label="Basic example">
+                                <a href="modifier-ressource.php?id=<?= $ressource['id'] ?>" class="btn btn-outline-success" onclick="return window.confirm(`Êtes vous sur de vouloir modifier cette ressource ?!`)">Modifier</a>
+                                <a href="delete-ressource.php?id=<?= $ressource['id'] ?>" class="btn btn-outline-danger" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cette ressource ?!`)">Supprimer</a>                    
+                            </div>
                         </div>
                     </div>
                 </div>

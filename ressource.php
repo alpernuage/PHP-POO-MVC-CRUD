@@ -7,7 +7,7 @@
  * Si on n'a pas de param "id", alors on affiche un message d'erreur !
  * 
  */
-require_once('libraries/Controllers/RessourceController.php');
+require_once('libraries/controllers/RessourceController.php');
 
 $controller = new \Controllers\RessourceController();
 $controller->show();

@@ -81,7 +81,7 @@ class RessourceController
          * 1. On vérifie que le GET possède bien un paramètre "id" (delete.php?id=202) et que c'est bien un nombre
          */
         if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
-            die("Ho ?! Tu n'as pas précisé l'id de la ressource !");
+            die("Vous n'avez pas précisé l'id de la ressource !");
         }
 
         $id = $_GET['id'];
