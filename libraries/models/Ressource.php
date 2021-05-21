@@ -45,7 +45,7 @@ class Ressource extends Model
         -- INNER JOIN auteur ON auteur.id = ressource.auteur_id 
         INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
         INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
-        ORDER BY date_creation DESC");
+        WHERE ressource.id = :ressource_id");
 
         // On exécute la requête en précisant le paramètre :ressource_id 
         $query->execute(['ressource_id' => $id]);
