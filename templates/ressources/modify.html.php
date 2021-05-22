@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="Auteur">Écrit par</label>
-                                        <input type="text" class="form-control" id="Auteur" value="Auteur">
+                                        <input type="text" class="form-control" id="Auteur" value="<?= $ressource['auteurPrenom'] ?> <?= $ressource['auteurNom'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">

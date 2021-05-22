@@ -24,7 +24,7 @@
 
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item w-25"><small>Écrit par</small></li>
-                                <li class="list-group-item w-75">Auteur</li>
+                                <li class="list-group-item w-75"><?= $ressource['auteurPrenom'] ?> <?= $ressource['auteurNom'] ?></li>
                             </ul>
                             <ul class="list-group list-group-horizontal">
                                 <li class="list-group-item w-25"><small>Date de création</small></li>

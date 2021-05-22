@@ -53,7 +53,7 @@
                             <div class="col-3">
                                 <ul class="list-group list-group-horizontal">
                                     <li class="list-group-item w-50"><small>Écrit par</small></li>
-                                    <li class="list-group-item w-50">Auteur</li>
+                                    <li class="list-group-item w-50"><?= $ressource['auteurPrenom'] ?> <?= $ressource['auteurNom'] ?></li>
                                 </ul>
                                 <ul class="list-group list-group-horizontal">
                                     <li class="list-group-item w-50"><small>Écrit le</small></li>
