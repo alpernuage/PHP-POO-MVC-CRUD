@@ -30,7 +30,7 @@ class Ressource extends Model
     }
 
     /**
-     * Retourne la liste des ressources classées par date de création
+     * Retourne la ressource sélectionnée
      *
      * @param integer $id
      * @return void
@@ -74,33 +74,35 @@ class Ressource extends Model
         INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
         ORDER BY date_creation DESC");
 
-        // On exécute la requête en précisant le paramètre :ressource_id 
-        // $query->execute(['ressource_id' => id]);
-
         // On fouille le résultat pour en extraire les données réelles de la ressource
         $ressources = $resultats->fetchAll();
 
         return $ressources;
     }
 
-    // /**
-    //  * Retourne la liste des ressources classées par date de création
-    //  *
-    //  * @param integer $id
-    //  * @return void
-    //  */
-    // public function findCategory(Ressource $ressource)
-    // {
-    //     $query = $this->pdo->prepare("SELECT * FROM ressource INNER JOIN categorie ON ressource.id = categorie.id WHERE ressource.id = id");
+    /**
+     * Modifie la ressource sélectionnée
+     * 
+     * @param integer $id
+     * @return void
+     */
+    public function modifyRessource(int $id)
+    {
+        $resultats = $this->pdo->query("UPDATE ressource.id, ressource.titre, ressource.lien_serveur, 
+        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie 
+        -- auteur.libelle AS auteur
+        FROM ressource 
+        INNER JOIN categorie ON categorie.id = ressource.categorie_id 
+        -- INNER JOIN auteur ON auteur.id = ressource.auteur_id 
+        INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
+        INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
+        ORDER BY date_creation DESC");
 
-    //     // On exécute la requête en précisant le paramètre :ressource_id 
-    //     $query->execute(['id' => 'ressource_id']);
+        // On fouille le résultat pour en extraire les données réelles de la ressource
+        $ressources = $resultats->fetchAll();
 
-    //     // On fouille le résultat pour en extraire les données réelles de la ressource
-    //     $ressource = $query->fetch();
-
-    //     return $ressource;
-    // }
+        return $ressources;
+    }
 
     // public function insert() {
     //     //Insère une ressource

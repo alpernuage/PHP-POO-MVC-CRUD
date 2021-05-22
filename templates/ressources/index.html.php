@@ -76,13 +76,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- <?php foreach ($ressources as $ressource) : ?>
-        <h2><?= $ressource['titre'] ?></h2>
-        <small>Ecrit le <?= $ressource['date_creation'] ?></small>
-        <h3>Catégorie : <?= $ressource['libelle'] ?></h3>
-        <p><?= $ressource['categorie_id'] ?></p>
-        <a href="ressource.php?id=<?= $ressource['id'] ?>">Lire la suite</a>
-        <a href="delete-ressource.php?id=<?= $ressource['id'] ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cette ressource ?!`)">Supprimer</a>
-    <?php endforeach ?> -->
