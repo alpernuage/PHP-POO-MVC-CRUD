@@ -164,4 +164,18 @@ class Ressource extends Model
         $query = $this->pdo->prepare('DELETE FROM ressource WHERE id = :id');
         $query->execute(['id' => $id]);
     }
+
+    /**
+     * Retourne la liste des categories 
+     *
+     * @return array
+     */
+    public function findAllCategories(): array
+    {
+        $resultats = $this->pdo->query('SELECT * FROM categorie ORDER BY libelle DESC');
+        // On fouille le résultat pour en extraire les données réelles
+        $categories = $resultats->fetchAll();
+
+        return $categories;
+    }
 }

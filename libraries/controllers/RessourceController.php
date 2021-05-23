@@ -95,6 +95,8 @@ class RessourceController
          */
         $pageTitre = $ressource['titre'];
 
+        $categories = $this->model->findAllCategories();
+
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
         \Renderer::render('ressources/modify', compact('pageTitre', 'ressource', 'ressource_id'));
     }

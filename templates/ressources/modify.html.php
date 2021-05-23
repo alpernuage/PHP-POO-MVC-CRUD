@@ -49,9 +49,11 @@
                                         <label for="typeRessource">Type ressource</label>
                                         <select id="typeRessource" class="form-control">
                                             <option selected><?= $ressource['typeRessource'] ?></option>
-                                            <option>...</option>
-                                            <option>...</option>
-                                            <option>...</option>
+
+                                            <?php foreach ($categories as $categorie) : ?>
+                                            <option>A</option>
+                                            <?php endforeach ?>
+
                                         </select>
                                         <fieldset class="form-group my-3">
                                             <div class="row">
