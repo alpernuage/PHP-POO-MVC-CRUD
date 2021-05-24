@@ -3,9 +3,6 @@
 
 <!-- <small>Ecrit le <?= $ressource['date_creation'] ?></small> -->
 
-
-<hr>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col">
@@ -49,32 +46,22 @@
                                         <label for="typeRessource">Type ressource</label>
                                         <select id="typeRessource" class="form-control">
                                             <option selected><?= $ressource['typeRessource'] ?></option>
-                                            <?php foreach ($allTypes as $oneType) : ?>
-                                                <option><?= $oneType['libelle'] ?></option>
+                                            <?php foreach ($types as $type) : ?>
+                                                <option><?= $type['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <fieldset class="form-group my-3">
                                             <div class="row">
                                                 <legend class="col-form-label col-sm-2 pt-0">Statut ressource</legend>
                                                 <div class="col-sm-10">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="statutRessource" id="statutRessource1" value="option1" checked>
-                                                        <label class="form-check-label" for="statutRessource">
-                                                            <?= $ressource['statutRessource'] ?>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="statutRessource" id="statutRessource2" value="option2">
-                                                        <label class="form-check-label" for="statutRessource2">
-                                                            Second radio
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check disabled">
-                                                        <input class="form-check-input" type="radio" name="statutRessource" id="statutRessource2" value="option3">
-                                                        <label class="form-check-label" for="statutRessource3">
-                                                            Third radio
-                                                        </label>
-                                                    </div>
+                                                    <?php foreach ($statuts as $statut) : ?>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="statutRessource" <?php if($statut['libelle']==$ressource['statutRessource']) {echo "checked";} ?>>
+                                                            <label class="form-check-label">
+                                                            <?= $statut['libelle'] ?>
+                                                            </label>
+                                                        </div>
+                                                    <?php endforeach ?>
                                                 </div>
                                             </div>
                                         </fieldset>

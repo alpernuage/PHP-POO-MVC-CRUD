@@ -180,8 +180,22 @@ class Ressource extends Model
     {
         $resultats = $this->pdo->query('SELECT * FROM type_ressource ORDER BY libelle DESC');
         // On fouille le résultat pour en extraire les données réelles
-        $allTypes = $resultats->fetchAll();
+        $types = $resultats->fetchAll();
 
-        return $allTypes;
+        return $types;
+    }
+
+    /**
+     * Retourne la liste des statuts 
+     *
+     * @return array
+     */
+    public function findAllStatuts(): array
+    {
+        $resultats = $this->pdo->query('SELECT * FROM statut_ressource ORDER BY libelle DESC');
+        // On fouille le résultat pour en extraire les données réelles
+        $statuts = $resultats->fetchAll();
+
+        return $statuts;
     }
 }

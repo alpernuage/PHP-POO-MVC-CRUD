@@ -98,15 +98,20 @@ class RessourceController
         /**
          * 5. Récupérer tout les types afin de perrmettre à l'utilisateur de sélectionner un type dans une liste déroulante
          */
-        $allTypes = $this->model->findAllTypes();
+        $types = $this->model->findAllTypes();
 
         /**
-         * 6. On affiche 
+         * 6. Récupérer tout les status afin de perrmettre à l'utilisateur de sélectionner un statut
+         */
+        $statuts = $this->model->findAllStatuts();
+
+        /**
+         * 7. On affiche 
          */
         $pageTitre = $ressource['titre'];
 
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-        \Renderer::render('ressources/modify', compact('pageTitre', 'ressource', 'ressource_id', 'allCategories', 'allTypes'));
+        \Renderer::render('ressources/modify', compact('pageTitre', 'ressource', 'ressource_id', 'allCategories', 'types', 'statuts'));
     }
 
     // Supprimer une ressource
