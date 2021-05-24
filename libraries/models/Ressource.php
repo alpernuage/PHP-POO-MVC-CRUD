@@ -7,14 +7,6 @@ require_once('libraries/models/Categorie.php');
 
 class Ressource extends Model
 {
-    // private $id;
-    // private $categorie_id;
-    // private $auteur_id;
-    // private $type_ressource;
-    // private $titre;
-    // private $lien_serveur;
-    // private $date_creation;
-
     /**
      * Retourne la liste des ressources classées par date de création
      *
@@ -174,8 +166,22 @@ class Ressource extends Model
     {
         $resultats = $this->pdo->query('SELECT * FROM categorie ORDER BY libelle DESC');
         // On fouille le résultat pour en extraire les données réelles
-        $categories = $resultats->fetchAll();
+        $allCategories = $resultats->fetchAll();
 
-        return $categories;
+        return $allCategories;
+    }
+
+    /**
+     * Retourne la liste des types 
+     *
+     * @return array
+     */
+    public function findAllTypes(): array
+    {
+        $resultats = $this->pdo->query('SELECT * FROM type_ressource ORDER BY libelle DESC');
+        // On fouille le résultat pour en extraire les données réelles
+        $allTypes = $resultats->fetchAll();
+
+        return $allTypes;
     }
 }

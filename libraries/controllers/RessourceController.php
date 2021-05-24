@@ -16,11 +16,11 @@ class RessourceController
         $this->model = new \Models\Ressource();
     }
 
-    // Montrer la liste
+    // Montrer la liste des ressources
     public function index()
     {
         /**
-         * 2. Récupération des ressource
+         * 2. Récupération des ressources
          */
         $ressources = $this->model->findRessourceDetails();
 
@@ -91,14 +91,22 @@ class RessourceController
         $ressource = $this->model->find($ressource_id);
 
         /**
-         * 5. On affiche 
+         * 4. Récupérer toutes les catégories afin de perrmettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
+         */
+        $allCategories = $this->model->findAllCategories();
+
+        /**
+         * 5. Récupérer tout les types afin de perrmettre à l'utilisateur de sélectionner un type dans une liste déroulante
+         */
+        $allTypes = $this->model->findAllTypes();
+
+        /**
+         * 6. On affiche 
          */
         $pageTitre = $ressource['titre'];
 
-        $categories = $this->model->findAllCategories();
-
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-        \Renderer::render('ressources/modify', compact('pageTitre', 'ressource', 'ressource_id'));
+        \Renderer::render('ressources/modify', compact('pageTitre', 'ressource', 'ressource_id', 'allCategories', 'allTypes'));
     }
 
     // Supprimer une ressource
@@ -114,7 +122,7 @@ class RessourceController
         $id = $_GET['id'];
 
         /**
-         * 3. Vérification que la ressource existe bel et bien
+         * 3. Vérification que la ressource existe
          */
         $ressource = $this->model->find($id);
         if (!$ressource) {

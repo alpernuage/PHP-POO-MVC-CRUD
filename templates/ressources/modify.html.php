@@ -42,18 +42,16 @@
                                         <label for="categorie">Catégorie </label>
                                         <select id="categorie" class="form-control">
                                             <option selected><?= $ressource['categorie'] ?></option>
-                                            <option>...</option>
-                                            <option>...</option>
-                                            <option>...</option>
+                                            <?php foreach ($allCategories as $oneCategorie) : ?>
+                                                <option><?= $oneCategorie['libelle'] ?></option>
+                                            <?php endforeach ?>
                                         </select>
                                         <label for="typeRessource">Type ressource</label>
                                         <select id="typeRessource" class="form-control">
                                             <option selected><?= $ressource['typeRessource'] ?></option>
-
-                                            <?php foreach ($categories as $categorie) : ?>
-                                            <option>A</option>
+                                            <?php foreach ($allTypes as $oneType) : ?>
+                                                <option><?= $oneType['libelle'] ?></option>
                                             <?php endforeach ?>
-
                                         </select>
                                         <fieldset class="form-group my-3">
                                             <div class="row">
