@@ -68,21 +68,23 @@ class RessourceController
     // Modifier une ressource
     public function modify()
     {
+        // Récupération des datas de la page de modification
+
         /**
          * 1. Récupération du param "id" et vérification de celui-ci
          */
         // On part du principe qu'on ne possède pas de param "id"
-        $ressource_id = null;
+        // $ressource_id = null;
 
         // Mais si il y'en a un et que c'est un nombre entier, alors c'est cool
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
+        // if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
             $ressource_id = $_GET['id'];
-        }
+        // }
 
         // On peut désormais décider : erreur ou pas ?!
-        if (!$ressource_id) {
-            die("Vous devez préciser un paramètre `id` dans l'URL !");
-        }
+        // if (!$ressource_id) {
+        //     die("Vous devez préciser un paramètre `id` dans l'URL !");
+        // }
 
         /**
          * 3. Récupération de la ressource en question
@@ -108,10 +110,72 @@ class RessourceController
         /**
          * 7. On affiche 
          */
-        $pageTitre = $ressource['titre'];
+        // $pageTitre = $ressource['titre'];
 
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-        \Renderer::render('ressources/modify', compact('pageTitre', 'ressource', 'ressource_id', 'allCategories', 'types', 'statuts'));
+        \Renderer::render('ressources/modify', compact( 'ressource', 'ressource_id', 'allCategories', 'types', 'statuts'));
+
+
+
+        // Traitement de la form de modification
+
+        /**
+         * 1. On vérifie que les données ont bien été envoyées en POST
+         * D'abord, on récupère les informations à partir du POST
+         * Ensuite, on vérifie qu'elles ne sont pas nulles
+         */
+        // $newTitre = null;
+        if (!empty($_POST['titreRessource'])) {
+            $newTitre = $_POST['titreRessource'];
+        }
+
+        // $newLien_serveur = null;
+        if (!empty($_POST['lienServeur'])) {
+            // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
+            $newLien_serveur = htmlspecialchars($_POST['lienServeur']);
+        }
+
+        // $newCategorie = null;
+        if (!empty($_POST['categorie'])) {
+            $newCategorie = $_POST['categorie'];
+        }
+
+        // $newType = null;
+        if (!empty($_POST['typeRessource'])) {
+            $newType = $_POST['typeRessource'];
+        }
+
+        // $newStatut = null;
+        if (!empty($_POST['statutRessource'])) {
+            $newStatut = $_POST['statutRessource'];
+        }
+
+        // $id = null;
+        // if (!empty($_POST['ressource_id'])) {
+        //     $id = $_POST['ressource_id'];
+        // }
+
+        // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
+        if (!$newTitre || !$newLien_serveur || !$newCategorie ||  !$newType || !$newStatut ) {
+            die("Veuillez remplir tous les champs !");
+        }
+
+        /**
+         * 2. Récupération de la ressource en question
+         * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur
+         */
+        // $ressource = $this->model->find($ressource_id);
+
+        // // Si rien n'est revenu, on fait une erreur
+        // if (!$article_id) {
+        //     die("Ho ! L'article $article_id n'existe pas boloss !");
+        // }
+
+        // 3. Soumission des modifications
+        $this->model->modifyRessource($ressource_id, $newTitre, $newLien_serveur, $newCategorie, $newType, $newStatut);
+
+        // 4. Redirection vers la page d'accueil
+        \Http::redirect("index.php");
     }
 
     // Supprimer une ressource

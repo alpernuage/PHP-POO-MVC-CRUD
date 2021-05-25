@@ -72,29 +72,69 @@ class Ressource extends Model
         return $ressources;
     }
 
+
+    //  /**
+    //  * Insère un commentaire dans la base de données
+    //  *
+    //  * @param string $author
+    //  * @param string $content
+    //  * @param string $article_id
+    //  * @return void
+    //  */
+    // public function insert(string $author, string $content, string $article_id): void {
+    //     $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, article_id = :article_id, created_at = NOW()');
+    //     $query->execute(compact('author', 'content', 'article_id'));
+    // }
+
+
     /**
      * Modifie la ressource sélectionnée
      * 
      * @param integer $id
      * @return void
      */
-    public function modifyRessource(int $id)
+    public function modifyRessource($ressource_id, string $newTitre, string $newLien_serveur, string $newCategorie, string $newType, string $newStatut)
     {
-        $resultats = $this->pdo->query("UPDATE ressource.id, ressource.titre, ressource.lien_serveur, 
-        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie, 
-        utilisateur.prenom AS auteurPrenom, utilisateur.nom AS auteurNom
-        FROM ressource 
-        INNER JOIN categorie ON categorie.id = ressource.categorie_id 
-        INNER JOIN utilisateur ON utilisateur.id = ressource.auteur_id 
-        INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
-        INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
-        ORDER BY date_creation DESC");
+        $resultats = $this->pdo->query("UPDATE ressource 
+        SET titre = $newTitre,
+            lien_serveur = $newLien_serveur,
+            categorie_id = (SELECT id FROM categorie WHERE libelle = $newCategorie),
+            type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = $newType),
+            statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = $newStatut)
+        WHERE ressource.id = $ressource_id");
 
         // On fouille le résultat pour en extraire les données réelles de la ressource
         $ressources = $resultats->fetchAll();
 
         return $ressources;
     }
+    
+    
+    // Function v2
+    // public function modifyRessource($ressource_id, string $newTitre, string $newLien_serveur, string $newCategorie, string $newType, string $newStatut)
+    // {
+    //     $query = $this->pdo->prepare("UPDATE ressource 
+    //     SET titre = :newTitre,
+    //         lien_serveur = :newLien_serveur,
+    //         categorie_id = (SELECT id FROM categorie WHERE libelle = :newCategorie),
+    //         type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = :newType)
+    //         statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = :newStatut)
+    //     WHERE ressource.id = :ressource_id");
+
+    //     // On fouille le résultat pour en extraire les données réelles de la ressource
+    //     $query->execute([
+    //         'ressource_id' => $ressource_id,
+    //         ':titre' => $newTitre,
+    //         ':lien_serveur' => $newLien_serveur,
+    //         ':categorie_id' => $newCategorie,
+    //         ':type_ressource_id' => $newType,
+    //         ':statut_ressource_id' => $newStatut
+    //     ]);
+    //     $ressources = $query->fetchAll();
+
+    //     return $ressources;
+    // }
+
 
     // public function insert() {
     //     //Insère une ressource
