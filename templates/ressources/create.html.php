@@ -11,32 +11,31 @@
                             <form method="POST" action="#">
                                 <div class="row">
                                     <div class="col mb-2">
-                                        <h1>Modifier la ressource no: <?= $ressource['id'] ?></h1>
+                                        <h1>Créer une ressource</h1>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="titreRessource">Titre de ressource</label>
-                                        <input type="text" class="form-control" name="titreRessource" value="<?= $ressource['titre'] ?>">
+                                        <input type="text" class="form-control" name="titreRessource">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="Auteur">Écrit par</label>
-                                        <input type="text" class="form-control" name="Auteur" value="<?= $ressource['auteurPrenom'] ?> <?= $ressource['auteurNom'] ?>" readonly>
+                                        <input type="text" class="form-control" name="Auteur">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="dateCreation">Date de création</label>
-                                    <input type="text" class="form-control" name="dateCreation" value="<?= $ressource['date_creation'] ?>" readonly>
+                                    <input type="text" class="form-control" name="dateCreation" value="<?= $newDate ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="lienServeur">Contenue de ressource (lien serveur)</label>
-                                    <input type="text" class="form-control" name="lienServeur" value="<?= $ressource['lien_serveur'] ?>">
+                                    <input type="text" class="form-control" name="lienServeur">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="categorie">Catégorie </label>
                                         <select name="categorie" class="form-control">
-                                            <option selected><?= $ressource['categorie'] ?></option>
                                             <?php foreach ($allCategories as $oneCategorie) : ?>
                                                 <option value="<?= $oneCategorie['id'] ?>"><?= $oneCategorie['libelle'] ?></option>
                                             <?php endforeach ?>
@@ -44,7 +43,7 @@
                                         <label for="typeRessource">Type ressource</label>
                                         <select name="typeRessource" class="form-control">
                                             <?php foreach ($types as $type) : ?>
-                                                <option value="<?= $type['id'] ?>" <?php if ($type['libelle'] == $ressource['typeRessource']) {echo "selected";} ?>><?= $type['libelle'] ?></option>
+                                                <option><?= $type['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <fieldset class="form-group my-3">
@@ -53,7 +52,7 @@
                                                 <div class="col-sm-10">
                                                     <?php foreach ($statuts as $statut) : ?>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="statutRessource" <?php if ($statut['libelle'] == $ressource['statutRessource']) { echo "checked"; } ?>>
+                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="statutRessource" >
                                                             <label class="form-check-label">
                                                                 <?= $statut['libelle'] ?>
                                                             </label>
@@ -73,8 +72,6 @@
 
             </div>
             <!-- end Card -->
-                                <?php var_dump($_POST) ?>
-
         </div>
     </div>
 </div>

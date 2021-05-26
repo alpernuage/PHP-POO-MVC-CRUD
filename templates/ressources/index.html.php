@@ -18,24 +18,13 @@
     </div>
 </nav>
 
-
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Data</li>
-    </ol>
-</nav>
-
-
-
 <div class="container-fluid">
     <div class="row">
         <div class="col">
             <div class="row">
                 <div class="col mb-2">
                     <h1>Nos ressources</h1>
-                    <a href="ressource.php?id=<?= $ressource['id'] ?>" class="btn btn-success float-end"><span class="h5">+</span> Nouvelle ressource</a>
+                    <a href="create-ressource.php" class="btn btn-success float-end"><span class="h5">+</span> Nouvelle ressource</a>
                 </div>
             </div>
 

@@ -88,102 +88,98 @@ class Ressource extends Model
 
 
     /**
-     * Modifie la ressource sélectionnée
+     * Créer une ressource
      * 
-     * @param integer $id
+     * @param integer $ressource_id
      * @return void
      */
-    public function modifyRessource($ressource_id, string $newTitre, string $newLien_serveur, string $newCategorie, string $newType, string $newStatut)
+    public function createRessource(string $newTitre, string $newAuteur, string $newLien_serveur, string $newCategorieId, string $newTypeId, string $newStatutId)
     {
-        $resultats = $this->pdo->query("UPDATE ressource 
-        SET titre = $newTitre,
-            lien_serveur = $newLien_serveur,
-            categorie_id = (SELECT id FROM categorie WHERE libelle = $newCategorie),
-            type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = $newType),
-            statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = $newStatut)
-        WHERE ressource.id = $ressource_id");
+        // Insère une ressource dans la base de données
+        $query = $this->pdo->prepare("INSERT INTO ressource 
+        SET titre = :titre,
+            auteur = :auteur,
+            dateCreation = NOW(),
+            lien_serveur = :lien_serveur,
+            categorie_id = :categorie_id,
+            type_ressource_id = :type_ressource_id,
+            statut_ressource_id = :statut_id
+        WHERE ressource.id = :ressource_id");
 
-        // On fouille le résultat pour en extraire les données réelles de la ressource
-        $ressources = $resultats->fetchAll();
-
-        return $ressources;
+        $query->execute([
+            'titre' => $newTitre,
+            'auteur' => $newAuteur,
+            'lien_serveur' => $newLien_serveur,
+            'categorie_id' => $newCategorieId,
+            'type_ressource_id' => $newTypeId,
+            'statut_ressource_id' => $newStatutId
+        ]);
     }
-    
-    
-    // Function v2
+
+    /**
+     * Modifier la ressource sélectionnée
+     * 
+     * @param integer $ressource_id
+     * @return void
+     */
     // public function modifyRessource($ressource_id, string $newTitre, string $newLien_serveur, string $newCategorie, string $newType, string $newStatut)
     // {
-    //     $query = $this->pdo->prepare("UPDATE ressource 
-    //     SET titre = :newTitre,
-    //         lien_serveur = :newLien_serveur,
-    //         categorie_id = (SELECT id FROM categorie WHERE libelle = :newCategorie),
-    //         type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = :newType)
-    //         statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = :newStatut)
-    //     WHERE ressource.id = :ressource_id");
+    //     $resultats = $this->pdo->query("UPDATE ressource 
+    //     SET titre = $newTitre,
+    //         lien_serveur = $newLien_serveur,
+    //         categorie_id = (SELECT id FROM categorie WHERE libelle = $newCategorie),
+    //         type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = $newType),
+    //         statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = $newStatut)
+    //     WHERE ressource.id = $ressource_id");
 
     //     // On fouille le résultat pour en extraire les données réelles de la ressource
-    //     $query->execute([
-    //         'ressource_id' => $ressource_id,
-    //         ':titre' => $newTitre,
-    //         ':lien_serveur' => $newLien_serveur,
-    //         ':categorie_id' => $newCategorie,
-    //         ':type_ressource_id' => $newType,
-    //         ':statut_ressource_id' => $newStatut
-    //     ]);
-    //     $ressources = $query->fetchAll();
+    //     $ressources = $resultats->fetchAll();
 
     //     return $ressources;
     // }
 
 
-    // public function insert() {
-    //     //Insère une ressource
+    // Function v2
+    // public function modifyRessource($ressource_id, $newTitre, $newLien_serveur, $newCategorieId, $newTypeId, $newStatutId)
+    // {
+    //     $query = $this->pdo->prepare("UPDATE ressource 
+    //     SET titre = :titre,
+    //         lien_serveur = :lien_serveur,
+    //         categorie_id = :categorie_id,
+    //         type_ressource_id = :type_ressource_id,
+    //         statut_ressource_id = :statut_id
+    //     WHERE ressource.id = :ressource_id");
 
-    //     $articleModel = new \Models\Article();
+    public function modifyRessource($ressource_id, $newTitre)
+    {
+        $query = $this->pdo->prepare("UPDATE ressource 
+        SET titre = :titre,
+        WHERE ressource.id = :ressource_id");
 
-    //     /**
-    //      * 1. On vérifie que les données ont bien été envoyées en POST
-    //      * D'abord, on récupère les informations à partir du POST
-    //      * Ensuite, on vérifie qu'elles ne sont pas nulles
-    //      */
-    //     // On commence par l'author
-    //     $author = null;
-    //     if (!empty($_POST['author'])) {
-    //         $author = $_POST['author'];
-    //     }
+        // v1 de la requête
+        // $query = $this->pdo->prepare("UPDATE ressource 
+        // SET titre = :titre,
+        //     lien_serveur = :lien_serveur,
+        //     categorie_id = (SELECT id FROM categorie WHERE libelle = :categorie),
+        //     type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = :type)
+        //     statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = :statut)
+        // WHERE ressource.id = :ressource_id");
 
-    //     // Ensuite le contenu
-    //     $content = null;
-    //     if (!empty($_POST['content'])) {
-    //         // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans sa ressource
-    //         $content = htmlspecialchars($_POST['content']);
-    //     }
+        // On fouille le résultat pour en extraire les données réelles de la ressource
+        // $query->execute([
+        //     'ressource_id' => $ressource_id,
+        //     'titre' => $newTitre,
+        //     'lien_serveur' => $newLien_serveur,
+        //     'categorie_id' => $newCategorieId,
+        //     'type_ressource_id' => $newTypeId,
+        //     'statut_ressource_id' => $newStatutId
+        // ]);
 
-    //     // Enfin l'id de l'article
-    //     $article_id = null;
-    //     if (!empty($_POST['article_id']) && ctype_digit($_POST['article_id'])) {
-    //         $article_id = $_POST['article_id'];
-    //     }
-
-    //     // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
-    //     // Si il n'y a pas d'auteur OU qu'il n'y a pas de contenu OU qu'il n'y a pas d'identifiant d'article
-    //     if (!$author || !$article_id || !$content) {
-    //         die("Votre formulaire a été mal rempli !");
-    //     }
-
-    //     $article = $articleModel->find($article_id);
-
-    //     // Si rien n'est revenu, on fait une erreur
-    //     if (!$article_id) {
-    //         die("Ho ! L'article $article_id n'existe pas boloss !");
-    //     }
-
-    //     // 3. Insertion de la ressource
-    //     $this->model->insert($author, $content, $article_id);
-
-    //     // 4. Redirection vers l'article en question :
-    //     \Http::redirect("index.php?controller=article&task=show&id=" . $article_id);
-    // }
+        $query->execute([
+            'ressource_id' => $ressource_id,
+            'titre'        => $newTitre
+        ]);
+    }
 
     /**
      * Supprime un article dans la BDD grâce à son identifiant
