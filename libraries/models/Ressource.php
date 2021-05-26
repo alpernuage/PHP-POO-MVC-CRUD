@@ -93,26 +93,26 @@ class Ressource extends Model
      * @param integer $ressource_id
      * @return void
      */
-    public function createRessource(string $newTitre, string $newAuteur, string $newLien_serveur, string $newCategorieId, string $newTypeId, string $newStatutId)
+    public function createRessource(string $newTitre, string $newLien_serveur, string $newCategorieId, string $newTypeId)
     {
         // Insère une ressource dans la base de données
         $query = $this->pdo->prepare("INSERT INTO ressource 
         SET titre = :titre,
-            auteur = :auteur,
-            dateCreation = NOW(),
+            -- auteur = :auteur,
+            date_creation = NOW(),
             lien_serveur = :lien_serveur,
             categorie_id = :categorie_id,
-            type_ressource_id = :type_ressource_id,
-            statut_ressource_id = :statut_id
-        WHERE ressource.id = :ressource_id");
+            type_ressource_id = :type_ressource_id
+            -- statut_ressource_id = :statut_id
+        ");
 
         $query->execute([
             'titre' => $newTitre,
-            'auteur' => $newAuteur,
+            // 'auteur' => $newAuteur,
             'lien_serveur' => $newLien_serveur,
             'categorie_id' => $newCategorieId,
-            'type_ressource_id' => $newTypeId,
-            'statut_ressource_id' => $newStatutId
+            'type_ressource_id' => $newTypeId
+            // 'statut_ressource_id' => $newStatutId
         ]);
     }
 

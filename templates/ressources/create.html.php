@@ -19,14 +19,10 @@
                                         <label for="titreRessource">Titre de ressource</label>
                                         <input type="text" class="form-control" name="titreRessource">
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <!-- <div class="form-group col-md-6">
                                         <label for="Auteur">Écrit par</label>
-                                        <input type="text" class="form-control" name="Auteur">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="dateCreation">Date de création</label>
-                                    <input type="text" class="form-control" name="dateCreation" value="<?= $newDate ?>" readonly>
+                                        <input type="text" class="form-control" name="Auteur" >
+                                    </div> -->
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="lienServeur">Contenue de ressource (lien serveur)</label>
@@ -46,13 +42,13 @@
                                                 <option><?= $type['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
-                                        <fieldset class="form-group my-3">
+                                        <!-- <fieldset class="form-group my-3">
                                             <div class="row">
                                                 <legend class="col-form-label col-sm-2 pt-0">Statut ressource</legend>
                                                 <div class="col-sm-10">
                                                     <?php foreach ($statuts as $statut) : ?>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="statutRessource" >
+                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="statutRessource">
                                                             <label class="form-check-label">
                                                                 <?= $statut['libelle'] ?>
                                                             </label>
@@ -60,7 +56,7 @@
                                                     <?php endforeach ?>
                                                 </div>
                                             </div>
-                                        </fieldset>
+                                        </fieldset> -->
                                     </div>
                                 </div>
                                 <button type="submit" name="Enregistrer" class="btn btn-outline-primary">Enregistrer</button>

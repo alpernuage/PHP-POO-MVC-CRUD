@@ -112,18 +112,18 @@ class RessourceController
                 $newTypeId = $_POST['typeRessource'];
             }
 
-            $newStatutId = null;
-            if (!empty($_POST['statutRessource'])) {
-                $newStatutId = $_POST['statutRessource'];
-            }
+            // $newStatutId = null;
+            // if (!empty($_POST['statutRessource'])) {
+            //     $newStatutId = $_POST['statutRessource'];
+            // }
 
             // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
-            if (!$newTitre || !$newAuteur || !$newLien_serveur || !$newCategorieId ||  !$newTypeId || !$newStatutId) {
+            if (!$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId ) {
                 die("Veuillez remplir tous les champs !");
             }
 
             // 3. Soumission des données
-            $this->model->createRessource($newTitre, $newAuteur, $newLien_serveur, $newCategorieId, $newTypeId, $newStatutId);
+            $this->model->createRessource($newTitre, $newLien_serveur, $newCategorieId, $newTypeId);
 
             // 4. Redirection vers la page d'accueil
             \Http::redirect("index.php");
@@ -145,7 +145,7 @@ class RessourceController
         $statuts = $this->model->findAllStatuts();
 
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-        \Renderer::render('ressources/show', compact('allCategories', 'types', 'statuts'));
+        \Renderer::render('ressources/create', compact('allCategories', 'types', 'statuts'));
     }
 
     // Modifier une ressource
