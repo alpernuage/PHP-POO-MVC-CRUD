@@ -13,7 +13,7 @@ class RessourceController
 
     public function __construct()
     {
-        $this->model = new \Models\Ressource();
+        $this->model = new \Ressource();
     }
 
     // Montrer la liste des ressources
@@ -68,7 +68,7 @@ class RessourceController
     // Créer une ressource
     public function create()
     {
-        $ressourceModel = new \Models\Ressource();
+        $ressourceModel = new \Ressource();
 
         /**
          * 1. On vérifie que les données ont bien été envoyées en POST
@@ -156,18 +156,7 @@ class RessourceController
         /**
          * 1. Récupération du param "id" et vérification de celui-ci
          */
-        // On part du principe qu'on ne possède pas de param "id"
-        // $ressource_id = null;
-
-        // Mais si il y'en a un et que c'est un nombre entier, alors c'est cool
-        if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
-            $ressource_id = $_GET['id'];
-        }
-
-        // On peut désormais décider : erreur ou pas ?!
-        // if (!$ressource_id) {
-        //     die("Vous devez préciser un paramètre `id` dans l'URL !");
-        // }
+        $ressource_id = $_GET['id'];
 
         /**
          * 3. Récupération de la ressource en question
@@ -198,42 +187,39 @@ class RessourceController
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
         \Renderer::render('ressources/modify', compact('ressource', 'ressource_id', 'allCategories', 'types', 'statuts'));
 
+        // Nettoyage des chaînes vides et la sécurité contre les caractères spéciaux
+        function securityForm($formData)
+        {
+            $formData = trim($_POST[$formData]);
+            $formData = stripslashes($formData);
+            $formData = htmlspecialchars($formData);
+            return $formData;
+        }
 
         // Traitement de la form de modification
         // Si l'utilisateur clique sur le bouton le traitement est executé, sinon on n'a pas besoin de faire le traitement
+        /**
+         * 1. On vérifie que les données ont bien été envoyées en POST
+         * D'abord, on récupère les informations à partir du POST
+         * Ensuite, on vérifie qu'elles ne sont pas nulles
+         */
         if (isset($_POST['Enregistrer'])) {
-
-            /**
-             * 1. On vérifie que les données ont bien été envoyées en POST
-             * D'abord, on récupère les informations à partir du POST
-             * Ensuite, on vérifie qu'elles ne sont pas nulles
-             */
+            
+            if (empty($_POST['titreRessource']) || empty($_POST['lienServeur']) || empty($_POST['categorie']) || empty($_POST['typeRessource']) || empty($_POST['statutRessource'])) {
+                $message = "Veuillez remplir tous les champs !";
+            }
+            
             // $newTitre = null;
-            if (!empty($_POST['titreRessource'])) {
-                $newTitre = $_POST['titreRessource'];
-            }
-
+            $newTitre = $_POST['titreRessource'];
             // $newLien_serveur = null;
-            if (!empty($_POST['lienServeur'])) {
-                // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
-                $newLien_serveur = htmlspecialchars($_POST['lienServeur']);
-            }
-
+            $newLien_serveur = $_POST['lienServeur'];
             // $newCategorie = null;
-            if (!empty($_POST['categorie'])) {
-                $newCategorieId = $_POST['categorie'];
-            }
-
+            $newCategorieId = $_POST['categorie'];
             // $newType = null;
-            if (!empty($_POST['typeRessource'])) {
-                $newTypeId = $_POST['typeRessource'];
-            }
-
+            $newTypeId = $_POST['typeRessource'];
             // $newStatut = null;
-            if (!empty($_POST['statutRessource'])) {
-                $newStatutId = $_POST['statutRessource'];
-            }
-
+            $newStatutId = $_POST['statutRessource'];
+            
             // $ressource_id = null;
             // if (!empty($_POST['ressource_id'])) {
             //     $ressource_id = $_POST['ressource_id'];
@@ -250,11 +236,6 @@ class RessourceController
              * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur
              */
             // $ressource = $this->model->find($ressource_id);
-
-            // // Si rien n'est revenu, on fait une erreur
-            // if (!$article_id) {
-            //     die("Ho ! L'article $article_id n'existe pas boloss !");
-            // }
 
             // 3. Soumission des modifications
             // $this->model->modifyRessource($ressource_id, $newTitre, $newLien_serveur, $newCategorieId, $newTypeId, $newStatutId);

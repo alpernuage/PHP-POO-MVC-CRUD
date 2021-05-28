@@ -3,7 +3,7 @@
 class Database
 {
     /**
-     * Retourne une connexion à l BDD
+     * Retourne une connexion à la BDD
      *
      * @return PDO
      */

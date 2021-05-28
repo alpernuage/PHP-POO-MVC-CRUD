@@ -1,12 +1,14 @@
 <?php
 
-namespace Models;
+require_once('libraries/Database.php');
 
-require_once('libraries/models/Model.php');
-require_once('libraries/models/Categorie.php');
-
-class Ressource extends Model
+class Ressource
 {
+    public function __construct()
+    {
+        $this->pdo = \Database::getPdo();
+    }
+
     /**
      * Retourne la liste des ressources classées par date de création
      *
@@ -71,21 +73,6 @@ class Ressource extends Model
 
         return $ressources;
     }
-
-
-    //  /**
-    //  * Insère un commentaire dans la base de données
-    //  *
-    //  * @param string $author
-    //  * @param string $content
-    //  * @param string $article_id
-    //  * @return void
-    //  */
-    // public function insert(string $author, string $content, string $article_id): void {
-    //     $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, article_id = :article_id, created_at = NOW()');
-    //     $query->execute(compact('author', 'content', 'article_id'));
-    // }
-
 
     /**
      * Créer une ressource
@@ -174,11 +161,17 @@ class Ressource extends Model
         //     'type_ressource_id' => $newTypeId,
         //     'statut_ressource_id' => $newStatutId
         // ]);
+        // $query->bindParam(1, $ressource_id, \Database::getPdo()::PARAM_INT);
+        // $query->bindParam(2, $newTitre, \Database::getPdo()::PARAM_STR);
 
-        $query->execute([
-            'ressource_id' => $ressource_id,
-            'titre'        => $newTitre
-        ]);
+        $query->bindValue(1, $ressource_id, \Database::getPdo()::PARAM_INT);
+        $query->bindValue(2, $newTitre, \Database::getPdo()::PARAM_STR);
+
+        $query->execute();
+        // $query->execute([
+        //     'ressource_id' => $ressource_id,
+        //     'titre'        => $newTitre
+        // ]);
     }
 
     /**
