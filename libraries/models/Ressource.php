@@ -12,12 +12,22 @@ class Ressource
     /**
      * Retourne la liste des ressources classées par date de création
      *
-     * @return array
+     * @param integer $id
+     * @return void
      */
-    public function findAll(): array
+    public function findRessourceDetails()
     {
-        $resultats = $this->pdo->query('SELECT * FROM ressource ORDER BY date_creation DESC');
-        // On fouille le résultat pour en extraire les données réelles
+        $resultats = $this->pdo->query("SELECT ressource.id, ressource.titre, ressource.lien_serveur, ressource.date_creation, 
+        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie, 
+        utilisateur.prenom AS auteurPrenom, utilisateur.nom AS auteurNom
+        FROM ressource 
+        INNER JOIN categorie ON categorie.id = ressource.categorie_id
+        INNER JOIN utilisateur ON utilisateur.id = ressource.auteur_id 
+        INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
+        INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
+        ORDER BY date_creation DESC");
+
+        // On fouille le résultat pour en extraire les données réelles de la ressource
         $ressources = $resultats->fetchAll();
 
         return $ressources;
@@ -43,35 +53,9 @@ class Ressource
 
         // On exécute la requête en précisant le paramètre :ressource_id 
         $query->execute(['ressource_id' => $id]);
-
-        // On fouille le résultat pour en extraire les données réelles de la ressource
         $ressource = $query->fetch();
 
         return $ressource;
-    }
-
-    /**
-     * Retourne la liste des ressources classées par date de création
-     *
-     * @param integer $id
-     * @return void
-     */
-    public function findRessourceDetails()
-    {
-        $resultats = $this->pdo->query("SELECT ressource.id, ressource.titre, ressource.lien_serveur, ressource.date_creation, 
-        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie, 
-        utilisateur.prenom AS auteurPrenom, utilisateur.nom AS auteurNom
-        FROM ressource 
-        INNER JOIN categorie ON categorie.id = ressource.categorie_id 
-        INNER JOIN utilisateur ON utilisateur.id = ressource.auteur_id 
-        INNER JOIN statut_ressource ON statut_ressource.id = ressource.statut_ressource_id 
-        INNER JOIN type_ressource ON type_ressource.id = ressource.type_ressource_id 
-        ORDER BY date_creation DESC");
-
-        // On fouille le résultat pour en extraire les données réelles de la ressource
-        $ressources = $resultats->fetchAll();
-
-        return $ressources;
     }
 
     /**
@@ -109,69 +93,41 @@ class Ressource
      * @param integer $ressource_id
      * @return void
      */
-    // public function modifyRessource($ressource_id, string $newTitre, string $newLien_serveur, string $newCategorie, string $newType, string $newStatut)
-    // {
-    //     $resultats = $this->pdo->query("UPDATE ressource 
-    //     SET titre = $newTitre,
-    //         lien_serveur = $newLien_serveur,
-    //         categorie_id = (SELECT id FROM categorie WHERE libelle = $newCategorie),
-    //         type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = $newType),
-    //         statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = $newStatut)
-    //     WHERE ressource.id = $ressource_id");
-
-    //     // On fouille le résultat pour en extraire les données réelles de la ressource
-    //     $ressources = $resultats->fetchAll();
-
-    //     return $ressources;
-    // }
-
-
-    // Function v2
-    // public function modifyRessource($ressource_id, $newTitre, $newLien_serveur, $newCategorieId, $newTypeId, $newStatutId)
-    // {
-    //     $query = $this->pdo->prepare("UPDATE ressource 
-    //     SET titre = :titre,
-    //         lien_serveur = :lien_serveur,
-    //         categorie_id = :categorie_id,
-    //         type_ressource_id = :type_ressource_id,
-    //         statut_ressource_id = :statut_id
-    //     WHERE ressource.id = :ressource_id");
-
-    public function modifyRessource($ressource_id, $newTitre)
+    public function modifyRessource(int $ressource_id, string $newTitre, string $newLienServeur, string $newCategorieId, string $newTypeId, string $newStatutId)
     {
         $query = $this->pdo->prepare("UPDATE ressource 
         SET titre = :titre,
+            lien_serveur = :lien_serveur,
+            categorie_id = :categorie_id,
+            type_ressource_id = :type_ressource_id,
+            statut_ressource_id = :statut_id
         WHERE ressource.id = :ressource_id");
 
-        // v1 de la requête
+        $query->execute([
+            'ressource_id' => $ressource_id,
+            'titre' => $newTitre,
+            'lien_serveur' => $newLienServeur,
+            'categorie_id' => $newCategorieId,
+            'type_ressource_id' => $newTypeId,
+            'statut_ressource_id' => $newStatutId
+        ]);
+
+        // v1 avec les sous requêtes
         // $query = $this->pdo->prepare("UPDATE ressource 
         // SET titre = :titre,
         //     lien_serveur = :lien_serveur,
         //     categorie_id = (SELECT id FROM categorie WHERE libelle = :categorie),
-        //     type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = :type)
+        //     type_ressource_id = (SELECT id FROM type_ressource WHERE libelle = :newType)
         //     statut_ressource_id = (SELECT id FROM statut_ressource WHERE libelle = :statut)
         // WHERE ressource.id = :ressource_id");
+        // $ressources = $resultats->fetchAll();
+        // return $ressources;
 
-        // On fouille le résultat pour en extraire les données réelles de la ressource
-        // $query->execute([
-        //     'ressource_id' => $ressource_id,
-        //     'titre' => $newTitre,
-        //     'lien_serveur' => $newLien_serveur,
-        //     'categorie_id' => $newCategorieId,
-        //     'type_ressource_id' => $newTypeId,
-        //     'statut_ressource_id' => $newStatutId
-        // ]);
         // $query->bindParam(1, $ressource_id, \Database::getPdo()::PARAM_INT);
         // $query->bindParam(2, $newTitre, \Database::getPdo()::PARAM_STR);
 
-        $query->bindValue(1, $ressource_id, \Database::getPdo()::PARAM_INT);
-        $query->bindValue(2, $newTitre, \Database::getPdo()::PARAM_STR);
-
-        $query->execute();
-        // $query->execute([
-        //     'ressource_id' => $ressource_id,
-        //     'titre'        => $newTitre
-        // ]);
+        // $query->bindValue(1, $ressource_id, \Database::getPdo()::PARAM_INT);
+        // $query->bindValue(2, $newTitre, \Database::getPdo()::PARAM_STR);
     }
 
     /**
@@ -194,7 +150,6 @@ class Ressource
     public function findAllCategories(): array
     {
         $resultats = $this->pdo->query('SELECT * FROM categorie ORDER BY libelle DESC');
-        // On fouille le résultat pour en extraire les données réelles
         $allCategories = $resultats->fetchAll();
 
         return $allCategories;
@@ -208,7 +163,6 @@ class Ressource
     public function findAllTypes(): array
     {
         $resultats = $this->pdo->query('SELECT * FROM type_ressource ORDER BY libelle DESC');
-        // On fouille le résultat pour en extraire les données réelles
         $types = $resultats->fetchAll();
 
         return $types;
@@ -222,7 +176,6 @@ class Ressource
     public function findAllStatuts(): array
     {
         $resultats = $this->pdo->query('SELECT * FROM statut_ressource ORDER BY libelle DESC');
-        // On fouille le résultat pour en extraire les données réelles
         $statuts = $resultats->fetchAll();
 
         return $statuts;

@@ -17,7 +17,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="titreRessource">Titre de ressource</label>
-                                        <input type="text" class="form-control" name="titreRessource" value="<?= $ressource['titre'] ?>">
+                                        <input type="text" class="form-control" name="TitreRessource" value="<?= $ressource['titre'] ?>">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="Auteur">Écrit par</label>
@@ -26,25 +26,25 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="dateCreation">Date de création</label>
-                                    <input type="text" class="form-control" name="dateCreation" value="<?= $ressource['date_creation'] ?>" readonly>
+                                    <input type="text" class="form-control" name="DateCreation" value="<?= $ressource['date_creation'] ?>" readonly>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="lienServeur">Contenue de ressource (lien serveur)</label>
-                                    <input type="text" class="form-control" name="lienServeur" value="<?= $ressource['lien_serveur'] ?>">
+                                    <input type="text" class="form-control" name="LienServeur" value="<?= $ressource['lien_serveur'] ?>">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="categorie">Catégorie </label>
-                                        <select name="categorie" class="form-control">
+                                        <select name="Categorie" class="form-control">
                                             <option selected><?= $ressource['categorie'] ?></option>
                                             <?php foreach ($allCategories as $oneCategorie) : ?>
                                                 <option value="<?= $oneCategorie['id'] ?>"><?= $oneCategorie['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <label for="typeRessource">Type ressource</label>
-                                        <select name="typeRessource" class="form-control">
+                                        <select name="TypeRessource" class="form-control">
                                             <?php foreach ($types as $type) : ?>
-                                                <option value="<?= $type['id'] ?>" <?php if ($type['libelle'] == $ressource['typeRessource']) {echo "selected";} ?>><?= $type['libelle'] ?></option>
+                                                <option value="<?= $type['id'] ?>" <?php if ($type['libelle'] == $ressource['TypeRessource']) {echo "selected";} ?>><?= $type['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <fieldset class="form-group my-3">
@@ -53,7 +53,7 @@
                                                 <div class="col-sm-10">
                                                     <?php foreach ($statuts as $statut) : ?>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="statutRessource" <?php if ($statut['libelle'] == $ressource['statutRessource']) { echo "checked"; } ?>>
+                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="StatutRessource" <?php if ($statut['libelle'] == $ressource['statutRessource']) { echo "checked"; } ?>>
                                                             <label class="form-check-label">
                                                                 <?= $statut['libelle'] ?>
                                                             </label>

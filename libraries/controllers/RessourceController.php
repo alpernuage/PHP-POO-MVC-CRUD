@@ -10,6 +10,7 @@ require_once('libraries/Http.php');
 class RessourceController
 {
     protected $model;
+    protected $message;
 
     public function __construct()
     {
@@ -20,12 +21,12 @@ class RessourceController
     public function index()
     {
         /**
-         * 2. Récupération des ressources
+         * 1. Récupération des ressources
          */
         $ressources = $this->model->findRessourceDetails();
 
         /**
-         * 3. Affichage
+         * 2. Affichage
          */
         $pageTitre = "Accueil";
         \Renderer::render('ressources/index', compact('pageTitre', 'ressources'));
@@ -40,29 +41,36 @@ class RessourceController
         // On part du principe qu'on ne possède pas de param "id"
         $ressource_id = null;
 
-        // Mais si il y'en a un et que c'est un nombre entier, alors c'est cool
+        // On controle si il y'en a un et que c'est un nombre entier
         if (!empty($_GET['id']) && ctype_digit($_GET['id'])) {
             $ressource_id = $_GET['id'];
         }
 
-        // On peut désormais décider : erreur ou pas ?!
+        // S'il n'y a pas de id une erreur s'affiche
         if (!$ressource_id) {
             die("Vous devez préciser un paramètre `id` dans l'URL !");
         }
 
         /**
-         * 3. Récupération de la ressource en question
+         * 2. Récupération de la ressource en question
          * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur
          */
         $ressource = $this->model->find($ressource_id);
 
         /**
-         * 5. On affiche 
+         * 3. On affiche 
          */
-        $pageTitre = $ressource['titre'];
-
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-        \Renderer::render('ressources/show', compact('pageTitre', 'ressource', 'ressource_id'));
+        \Renderer::render('ressources/show', compact('ressource', 'ressource_id'));
+    }
+
+    // Nettoyage des chaînes vides et la sécurité contre les caractères spéciaux
+    public function securityForm($formData)
+    {
+        $formData = trim($_POST[$formData]);
+        $formData = stripslashes($formData);
+        $formData = htmlspecialchars($formData);
+        return $formData;
     }
 
     // Créer une ressource
@@ -118,7 +126,7 @@ class RessourceController
             // }
 
             // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
-            if (!$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId ) {
+            if (!$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId) {
                 die("Veuillez remplir tous les champs !");
             }
 
@@ -154,92 +162,64 @@ class RessourceController
         // Récupération des datas de la page de modification
 
         /**
-         * 1. Récupération du param "id" et vérification de celui-ci
+         * 1. Récupération du param "id"
          */
         $ressource_id = $_GET['id'];
 
         /**
-         * 3. Récupération de la ressource en question
+         * 2. Récupération de la ressource en question
          * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur
          */
         $ressource = $this->model->find($ressource_id);
 
         /**
-         * 4. Récupérer toutes les catégories afin de permettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
+         * 3. Récupérer toutes les catégories afin de permettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
          */
         $allCategories = $this->model->findAllCategories();
 
         /**
-         * 5. Récupérer tout les types afin de perrmettre à l'utilisateur de sélectionner un type dans une liste déroulante
+         * 4. Récupérer tout les types afin de permettre à l'utilisateur de sélectionner un type dans une liste déroulante
          */
         $types = $this->model->findAllTypes();
 
         /**
-         * 6. Récupérer tout les status afin de permettre à l'utilisateur de sélectionner un statut
+         * 5. Récupérer tout les statuts afin de permettre à l'utilisateur de sélectionner un statut
          */
         $statuts = $this->model->findAllStatuts();
 
         /**
-         * 7. On affiche 
+         * 6. On affiche 
          */
-        // $pageTitre = $ressource['titre'];
-
         // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
         \Renderer::render('ressources/modify', compact('ressource', 'ressource_id', 'allCategories', 'types', 'statuts'));
 
-        // Nettoyage des chaînes vides et la sécurité contre les caractères spéciaux
-        function securityForm($formData)
-        {
-            $formData = trim($_POST[$formData]);
-            $formData = stripslashes($formData);
-            $formData = htmlspecialchars($formData);
-            return $formData;
-        }
-
         // Traitement de la form de modification
         // Si l'utilisateur clique sur le bouton le traitement est executé, sinon on n'a pas besoin de faire le traitement
-        /**
-         * 1. On vérifie que les données ont bien été envoyées en POST
-         * D'abord, on récupère les informations à partir du POST
-         * Ensuite, on vérifie qu'elles ne sont pas nulles
-         */
-        if (isset($_POST['Enregistrer'])) {
-            
-            if (empty($_POST['titreRessource']) || empty($_POST['lienServeur']) || empty($_POST['categorie']) || empty($_POST['typeRessource']) || empty($_POST['statutRessource'])) {
-                $message = "Veuillez remplir tous les champs !";
+        if (isset($_POST['Enregistrer'])) {         
+
+            /**
+             * 1. On vérifie que les données ont bien été envoyées en POST
+             * D'abord, on récupère les informations à partir du POST
+             * Ensuite, on vérifie qu'elles ne sont pas nulles
+             */
+            if (empty($_POST['TitreRessource']) || empty($_POST['LienServeur']) || empty($_POST['Categorie']) || empty($_POST['TypeRessource']) || empty($_POST['StatutRessource'])) {
+                $this->message = "Veuillez remplir tous les champs !";
             }
-            
-            // $newTitre = null;
-            $newTitre = $_POST['titreRessource'];
-            // $newLien_serveur = null;
-            $newLien_serveur = $_POST['lienServeur'];
-            // $newCategorie = null;
-            $newCategorieId = $_POST['categorie'];
-            // $newType = null;
-            $newTypeId = $_POST['typeRessource'];
-            // $newStatut = null;
-            $newStatutId = $_POST['statutRessource'];
-            
+
+            $newTitre = $this->securityForm('TitreRessource');
+            $newLienServeur = $this->securityForm('LienServeur');
+            $newCategorieId = $this->securityForm('Categorie');
+            $newTypeId = $this->securityForm('TypeRessource');
+            $newStatutId = $this->securityForm('StatutRessource');
+
             // $ressource_id = null;
             // if (!empty($_POST['ressource_id'])) {
             //     $ressource_id = $_POST['ressource_id'];
             // }
 
-            // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
-            // if (!$ressource_id || !$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId || !$newStatutId) {
-            if (!$ressource_id || !$newTitre) {
-                die("Veuillez remplir tous les champs !");
-            }
-
-            /**
-             * 2. Récupération de la ressource en question
-             * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur
-             */
-            // $ressource = $this->model->find($ressource_id);
-
             // 3. Soumission des modifications
             // $this->model->modifyRessource($ressource_id, $newTitre, $newLien_serveur, $newCategorieId, $newTypeId, $newStatutId);
-            $this->model->modifyRessource($ressource_id, $newTitre);
+            $this->model->modifyRessource($ressource_id, $newTitre, $newLienServeur, $newCategorieId, $newTypeId, $newStatutId);
 
             // 4. Redirection vers la page d'accueil
             \Http::redirect("index.php");
@@ -259,7 +239,7 @@ class RessourceController
         $id = $_GET['id'];
 
         /**
-         * 3. Vérification que la ressource existe
+         * 2. Vérification que la ressource existe
          */
         $ressource = $this->model->find($id);
         if (!$ressource) {
@@ -267,12 +247,12 @@ class RessourceController
         }
 
         /**
-         * 4. Réelle suppression de la ressource
+         * 3. Réelle suppression de la ressource
          */
         $this->model->delete($id);
 
         /**
-         * 5. Redirection vers la page d'accueil
+         * 4. Redirection vers la page d'accueil
          */
         \Http::redirect("index.php");
     }
