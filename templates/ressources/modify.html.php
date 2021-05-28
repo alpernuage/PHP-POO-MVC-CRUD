@@ -44,7 +44,7 @@
                                         <label for="typeRessource">Type ressource</label>
                                         <select name="TypeRessource" class="form-control">
                                             <?php foreach ($types as $type) : ?>
-                                                <option value="<?= $type['id'] ?>" <?php if ($type['libelle'] == $ressource['TypeRessource']) {echo "selected";} ?>><?= $type['libelle'] ?></option>
+                                                <option value="<?= $type['id'] ?>" <?php if ($type['libelle'] == $ressource['typeRessource']) {echo "selected";} ?>><?= $type['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <fieldset class="form-group my-3">

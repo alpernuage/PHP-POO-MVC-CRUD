@@ -58,34 +58,34 @@ class Ressource
         return $ressource;
     }
 
-    /**
-     * Créer une ressource
-     * 
-     * @param integer $ressource_id
-     * @return void
-     */
-    public function createRessource(string $newTitre, string $newLien_serveur, string $newCategorieId, string $newTypeId)
-    {
-        // Insère une ressource dans la base de données
-        $query = $this->pdo->prepare("INSERT INTO ressource 
-        SET titre = :titre,
-            -- auteur = :auteur,
-            date_creation = NOW(),
-            lien_serveur = :lien_serveur,
-            categorie_id = :categorie_id,
-            type_ressource_id = :type_ressource_id
-            -- statut_ressource_id = :statut_id
-        ");
+    // /**
+    //  * Créer une ressource
+    //  * 
+    //  * @param integer $ressource_id
+    //  * @return void
+    //  */
+    // public function createRessource(string $newTitre, string $newLien_serveur, string $newCategorieId, string $newTypeId)
+    // {
+    //     // Insère une ressource dans la base de données
+    //     $query = $this->pdo->prepare("INSERT INTO ressource 
+    //     SET titre = :titre,
+    //         -- auteur = :auteur,
+    //         date_creation = NOW(),
+    //         lien_serveur = :lien_serveur,
+    //         categorie_id = :categorie_id,
+    //         type_ressource_id = :type_ressource_id
+    //         -- statut_ressource_id = :statut_id
+    //     ");
 
-        $query->execute([
-            'titre' => $newTitre,
-            // 'auteur' => $newAuteur,
-            'lien_serveur' => $newLien_serveur,
-            'categorie_id' => $newCategorieId,
-            'type_ressource_id' => $newTypeId
-            // 'statut_ressource_id' => $newStatutId
-        ]);
-    }
+    //     $query->execute([
+    //         'titre' => $newTitre,
+    //         // 'auteur' => $newAuteur,
+    //         'lien_serveur' => $newLien_serveur,
+    //         'categorie_id' => $newCategorieId,
+    //         'type_ressource_id' => $newTypeId
+    //         // 'statut_ressource_id' => $newStatutId
+    //     ]);
+    // }
 
     /**
      * Modifier la ressource sélectionnée
@@ -100,7 +100,7 @@ class Ressource
             lien_serveur = :lien_serveur,
             categorie_id = :categorie_id,
             type_ressource_id = :type_ressource_id,
-            statut_ressource_id = :statut_id
+            statut_ressource_id = :statut_ressource_id
         WHERE ressource.id = :ressource_id");
 
         $query->execute([

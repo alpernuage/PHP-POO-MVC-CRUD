@@ -73,88 +73,88 @@ class RessourceController
         return $formData;
     }
 
-    // Créer une ressource
-    public function create()
-    {
-        $ressourceModel = new \Ressource();
+    // // Créer une ressource
+    // public function create()
+    // {
+    //     $ressourceModel = new \Ressource();
 
-        /**
-         * 1. On vérifie que les données ont bien été envoyées en POST
-         * D'abord, on récupère les informations à partir du POST
-         * Ensuite, on vérifie qu'elles ne sont pas nulles
-         */
+    //     /**
+    //      * 1. On vérifie que les données ont bien été envoyées en POST
+    //      * D'abord, on récupère les informations à partir du POST
+    //      * Ensuite, on vérifie qu'elles ne sont pas nulles
+    //      */
 
-        // Traitement de la form de création
-        // Si l'utilisateur clique sur le bouton le traitement est executé, sinon on n'a pas besoin de faire le traitement
-        if (isset($_POST['Enregistrer'])) {
+    //     // Traitement de la form de création
+    //     // Si l'utilisateur clique sur le bouton le traitement est executé, sinon on n'a pas besoin de faire le traitement
+    //     if (isset($_POST['Enregistrer'])) {
 
-            /**
-             * 1. On vérifie que les données ont bien été envoyées en POST
-             * D'abord, on récupère les informations à partir du POST
-             * Ensuite, on vérifie qu'elles ne sont pas nulles
-             */
-            $newTitre = null;
-            if (!empty($_POST['titreRessource'])) {
-                $newTitre = $_POST['titreRessource'];
-            }
+    //         /**
+    //          * 1. On vérifie que les données ont bien été envoyées en POST
+    //          * D'abord, on récupère les informations à partir du POST
+    //          * Ensuite, on vérifie qu'elles ne sont pas nulles
+    //          */
+    //         $newTitre = null;
+    //         if (!empty($_POST['titreRessource'])) {
+    //             $newTitre = $_POST['titreRessource'];
+    //         }
 
-            $newAuteur = null;
-            if (!empty($_POST['lienServeur'])) {
-                // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
-                $newAuteur = htmlspecialchars($_POST['lienServeur']);
-            }
+    //         $newAuteur = null;
+    //         if (!empty($_POST['lienServeur'])) {
+    //             // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
+    //             $newAuteur = htmlspecialchars($_POST['lienServeur']);
+    //         }
 
-            $newLien_serveur = null;
-            if (!empty($_POST['lienServeur'])) {
-                // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
-                $newLien_serveur = htmlspecialchars($_POST['lienServeur']);
-            }
+    //         $newLien_serveur = null;
+    //         if (!empty($_POST['lienServeur'])) {
+    //             // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
+    //             $newLien_serveur = htmlspecialchars($_POST['lienServeur']);
+    //         }
 
-            $newCategorieId = null;
-            if (!empty($_POST['categorie'])) {
-                $newCategorieId = $_POST['categorie'];
-            }
+    //         $newCategorieId = null;
+    //         if (!empty($_POST['categorie'])) {
+    //             $newCategorieId = $_POST['categorie'];
+    //         }
 
-            $newTypeId = null;
-            if (!empty($_POST['typeRessource'])) {
-                $newTypeId = $_POST['typeRessource'];
-            }
+    //         $newTypeId = null;
+    //         if (!empty($_POST['typeRessource'])) {
+    //             $newTypeId = $_POST['typeRessource'];
+    //         }
 
-            // $newStatutId = null;
-            // if (!empty($_POST['statutRessource'])) {
-            //     $newStatutId = $_POST['statutRessource'];
-            // }
+    //         // $newStatutId = null;
+    //         // if (!empty($_POST['statutRessource'])) {
+    //         //     $newStatutId = $_POST['statutRessource'];
+    //         // }
 
-            // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
-            if (!$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId) {
-                die("Veuillez remplir tous les champs !");
-            }
+    //         // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
+    //         if (!$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId) {
+    //             die("Veuillez remplir tous les champs !");
+    //         }
 
-            // 3. Soumission des données
-            $this->model->createRessource($newTitre, $newLien_serveur, $newCategorieId, $newTypeId);
+    //         // 3. Soumission des données
+    //         $this->model->createRessource($newTitre, $newLien_serveur, $newCategorieId, $newTypeId);
 
-            // 4. Redirection vers la page d'accueil
-            \Http::redirect("index.php");
-        }
+    //         // 4. Redirection vers la page d'accueil
+    //         \Http::redirect("index.php");
+    //     }
 
-        /**
-         * 4. Récupérer toutes les catégories afin de perrmettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
-         */
-        $allCategories = $this->model->findAllCategories();
+    //     /**
+    //      * 4. Récupérer toutes les catégories afin de perrmettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
+    //      */
+    //     $allCategories = $this->model->findAllCategories();
 
-        /**
-         * 5. Récupérer tout les types afin de perrmettre à l'utilisateur de sélectionner un type dans une liste déroulante
-         */
-        $types = $this->model->findAllTypes();
+    //     /**
+    //      * 5. Récupérer tout les types afin de perrmettre à l'utilisateur de sélectionner un type dans une liste déroulante
+    //      */
+    //     $types = $this->model->findAllTypes();
 
-        /**
-         * 6. Récupérer tout les status afin de permettre à l'utilisateur de sélectionner un statut
-         */
-        $statuts = $this->model->findAllStatuts();
+    //     /**
+    //      * 6. Récupérer tout les status afin de permettre à l'utilisateur de sélectionner un statut
+    //      */
+    //     $statuts = $this->model->findAllStatuts();
 
-        // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-        \Renderer::render('ressources/create', compact('allCategories', 'types', 'statuts'));
-    }
+    //     // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
+    //     \Renderer::render('ressources/create', compact('allCategories', 'types', 'statuts'));
+    // }
 
     // Modifier une ressource
     public function modify()
@@ -218,7 +218,6 @@ class RessourceController
             // }
 
             // 3. Soumission des modifications
-            // $this->model->modifyRessource($ressource_id, $newTitre, $newLien_serveur, $newCategorieId, $newTypeId, $newStatutId);
             $this->model->modifyRessource($ressource_id, $newTitre, $newLienServeur, $newCategorieId, $newTypeId, $newStatutId);
 
             // 4. Redirection vers la page d'accueil
