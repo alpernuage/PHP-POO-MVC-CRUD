@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <form method="POST" action="#">
+                            <form method="POST" action="save-ressource.php">
                                 <div class="row">
                                     <div class="col mb-2">
                                         <h1>Créer une ressource</h1>
@@ -17,38 +17,34 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="titreRessource">Titre de ressource</label>
-                                        <input type="text" class="form-control" name="titreRessource">
+                                        <input type="text" class="form-control" name="TitreRessource">
                                     </div>
-                                    <!-- <div class="form-group col-md-6">
-                                        <label for="Auteur">Écrit par</label>
-                                        <input type="text" class="form-control" name="Auteur" >
-                                    </div> -->
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="lienServeur">Contenue de ressource (lien serveur)</label>
-                                    <input type="text" class="form-control" name="lienServeur">
+                                    <label for="lienServeur">Contenu de ressource (lien serveur)</label>
+                                    <input type="text" class="form-control" name="LienServeur">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <label for="categorie">Catégorie </label>
-                                        <select name="categorie" class="form-control">
+                                        <select name="Categorie" class="form-control">
                                             <?php foreach ($allCategories as $oneCategorie) : ?>
                                                 <option value="<?= $oneCategorie['id'] ?>"><?= $oneCategorie['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <label for="typeRessource">Type ressource</label>
-                                        <select name="typeRessource" class="form-control">
+                                        <select name="TypeRessource" class="form-control">
                                             <?php foreach ($types as $type) : ?>
-                                                <option><?= $type['libelle'] ?></option>
+                                                <option value="<?= $type['id'] ?>" ><?= $type['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
-                                        <!-- <fieldset class="form-group my-3">
+                                        <fieldset class="form-group my-3">
                                             <div class="row">
                                                 <legend class="col-form-label col-sm-2 pt-0">Statut ressource</legend>
                                                 <div class="col-sm-10">
                                                     <?php foreach ($statuts as $statut) : ?>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="statutRessource">
+                                                            <input class="form-check-input" type="radio" value="<?= $statut['id'] ?>" name="StatutRessource">
                                                             <label class="form-check-label">
                                                                 <?= $statut['libelle'] ?>
                                                             </label>
@@ -56,10 +52,11 @@
                                                     <?php endforeach ?>
                                                 </div>
                                             </div>
-                                        </fieldset> -->
+                                        </fieldset>
                                     </div>
                                 </div>
                                 <button type="submit" name="Enregistrer" class="btn btn-outline-primary">Enregistrer</button>
+                                <p class="text-danger"><?= $message ?></p>
                             </form>
                         </div>
                     </div>

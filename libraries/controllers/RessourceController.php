@@ -73,88 +73,60 @@ class RessourceController
         return $formData;
     }
 
-    // // Créer une ressource
-    // public function create()
-    // {
-    //     $ressourceModel = new \Ressource();
+    // Créer une ressource
+    public function create()
+    {
+        $ressourceModel = new \Ressource();
 
-    //     /**
-    //      * 1. On vérifie que les données ont bien été envoyées en POST
-    //      * D'abord, on récupère les informations à partir du POST
-    //      * Ensuite, on vérifie qu'elles ne sont pas nulles
-    //      */
+        /**
+         * 1. On vérifie que les données ont bien été envoyées en POST
+         * D'abord, on récupère les informations à partir du POST
+         * Ensuite, on vérifie qu'elles ne sont pas nulles
+         */
 
-    //     // Traitement de la form de création
-    //     // Si l'utilisateur clique sur le bouton le traitement est executé, sinon on n'a pas besoin de faire le traitement
-    //     if (isset($_POST['Enregistrer'])) {
+        // Traitement de la form de modification
+        // Si l'utilisateur clique sur le bouton le traitement est executé, sinon on n'a pas besoin de faire le traitement
+        if (isset($_POST['Enregistrer'])) {         
 
-    //         /**
-    //          * 1. On vérifie que les données ont bien été envoyées en POST
-    //          * D'abord, on récupère les informations à partir du POST
-    //          * Ensuite, on vérifie qu'elles ne sont pas nulles
-    //          */
-    //         $newTitre = null;
-    //         if (!empty($_POST['titreRessource'])) {
-    //             $newTitre = $_POST['titreRessource'];
-    //         }
+            /**
+             * 1. On vérifie que les données ont bien été envoyées en POST
+             * D'abord, on récupère les informations à partir du POST
+             * Ensuite, on vérifie qu'elles ne sont pas nulles
+             */
+            if (empty($_POST['TitreRessource']) || empty($_POST['LienServeur']) || empty($_POST['Categorie']) || empty($_POST['TypeRessource']) || empty($_POST['StatutRessource'])) {
+                $this->message = "Veuillez remplir tous les champs !";
+            }
 
-    //         $newAuteur = null;
-    //         if (!empty($_POST['lienServeur'])) {
-    //             // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
-    //             $newAuteur = htmlspecialchars($_POST['lienServeur']);
-    //         }
+            $newTitre = $this->securityForm('TitreRessource');
+            $newLienServeur = $this->securityForm('LienServeur');
+            $newCategorieId = $this->securityForm('Categorie');
+            $newTypeId = $this->securityForm('TypeRessource');
+            $newStatutId = $this->securityForm('StatutRessource');
 
-    //         $newLien_serveur = null;
-    //         if (!empty($_POST['lienServeur'])) {
-    //             // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
-    //             $newLien_serveur = htmlspecialchars($_POST['lienServeur']);
-    //         }
+            // 3. Soumission des données
+            $this->model->createRessource($newTitre, $newLienServeur, $newCategorieId, $newTypeId, $newStatutId);
 
-    //         $newCategorieId = null;
-    //         if (!empty($_POST['categorie'])) {
-    //             $newCategorieId = $_POST['categorie'];
-    //         }
+            // 4. Redirection vers la page d'accueil
+            \Http::redirect("index.php");
+        }
+        /**
+         * 3. Récupérer toutes les catégories afin de permettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
+         */
+        $allCategories = $this->model->findAllCategories();
 
-    //         $newTypeId = null;
-    //         if (!empty($_POST['typeRessource'])) {
-    //             $newTypeId = $_POST['typeRessource'];
-    //         }
+        /**
+         * 4. Récupérer tout les types afin de permettre à l'utilisateur de sélectionner un type dans une liste déroulante
+         */
+        $types = $this->model->findAllTypes();
 
-    //         // $newStatutId = null;
-    //         // if (!empty($_POST['statutRessource'])) {
-    //         //     $newStatutId = $_POST['statutRessource'];
-    //         // }
+        /**
+         * 5. Récupérer tout les statuts afin de permettre à l'utilisateur de sélectionner un statut
+         */
+        $statuts = $this->model->findAllStatuts();
 
-    //         // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
-    //         if (!$newTitre || !$newLien_serveur || !$newCategorieId ||  !$newTypeId) {
-    //             die("Veuillez remplir tous les champs !");
-    //         }
-
-    //         // 3. Soumission des données
-    //         $this->model->createRessource($newTitre, $newLien_serveur, $newCategorieId, $newTypeId);
-
-    //         // 4. Redirection vers la page d'accueil
-    //         \Http::redirect("index.php");
-    //     }
-
-    //     /**
-    //      * 4. Récupérer toutes les catégories afin de perrmettre à l'utilisateur de sélectionner une catégorie dans une liste déroulante
-    //      */
-    //     $allCategories = $this->model->findAllCategories();
-
-    //     /**
-    //      * 5. Récupérer tout les types afin de perrmettre à l'utilisateur de sélectionner un type dans une liste déroulante
-    //      */
-    //     $types = $this->model->findAllTypes();
-
-    //     /**
-    //      * 6. Récupérer tout les status afin de permettre à l'utilisateur de sélectionner un statut
-    //      */
-    //     $statuts = $this->model->findAllStatuts();
-
-    //     // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
-    //     \Renderer::render('ressources/create', compact('allCategories', 'types', 'statuts'));
-    // }
+        // fonctions compact permet de créer un tableau associatif à partir du nom de variable qu'on met dedans. Les clés et les valeur ont le même contenu grâce à cette fonction. Ceux nom variables sont envoyés dans la fonction rendre et elles seront extraites sous en forme des véritables variables dans la fonction extract
+        \Renderer::render('ressources/create', compact('allCategories', 'types', 'statuts'));
+    }
 
     // Modifier une ressource
     public function modify()

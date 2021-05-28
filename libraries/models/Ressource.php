@@ -58,34 +58,32 @@ class Ressource
         return $ressource;
     }
 
-    // /**
-    //  * Créer une ressource
-    //  * 
-    //  * @param integer $ressource_id
-    //  * @return void
-    //  */
-    // public function createRessource(string $newTitre, string $newLien_serveur, string $newCategorieId, string $newTypeId)
-    // {
-    //     // Insère une ressource dans la base de données
-    //     $query = $this->pdo->prepare("INSERT INTO ressource 
-    //     SET titre = :titre,
-    //         -- auteur = :auteur,
-    //         date_creation = NOW(),
-    //         lien_serveur = :lien_serveur,
-    //         categorie_id = :categorie_id,
-    //         type_ressource_id = :type_ressource_id
-    //         -- statut_ressource_id = :statut_id
-    //     ");
+    /**
+     * Créer une ressource
+     * 
+     * @param integer $ressource_id
+     * @return void
+     */
+    public function createRessource(string $newTitre, string $newLienServeur, string $newCategorieId, string $newTypeId, string $newStatutId)
+    {
+        $query = $this->pdo->prepare("INSERT INTO ressource 
+        SET categorie_id = :categorie_id,
+            accessibilite_id = 2,
+            auteur_id = 3,
+            statut_ressource_id = :statut_ressource_id,
+            type_ressource_id = :type_ressource_id,
+            titre = :titre,
+            lien_serveur = :lien_serveur,
+            date_creation = NOW()");
 
-    //     $query->execute([
-    //         'titre' => $newTitre,
-    //         // 'auteur' => $newAuteur,
-    //         'lien_serveur' => $newLien_serveur,
-    //         'categorie_id' => $newCategorieId,
-    //         'type_ressource_id' => $newTypeId
-    //         // 'statut_ressource_id' => $newStatutId
-    //     ]);
-    // }
+        $query->execute([
+            'categorie_id' => $newCategorieId,
+            'statut_ressource_id' => $newStatutId,
+            'type_ressource_id' => $newTypeId,
+            'titre' => $newTitre,
+            'lien_serveur' => $newLienServeur
+        ]);
+    }
 
     /**
      * Modifier la ressource sélectionnée
