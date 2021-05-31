@@ -36,9 +36,8 @@
                                     <div class="form-group col-md-4">
                                         <label for="categorie">Catégorie </label>
                                         <select name="Categorie" class="form-control">
-                                            <option selected><?= $ressource['categorie'] ?></option>
                                             <?php foreach ($allCategories as $oneCategorie) : ?>
-                                                <option value="<?= $oneCategorie['id'] ?>"><?= $oneCategorie['libelle'] ?></option>
+                                                <option <?php if($oneCategorie['id'] == $ressource['categorie_id']) echo 'selected'; ?> value="<?= $oneCategorie['id'] ?>"><?= $oneCategorie['libelle'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                         <label for="typeRessource">Type ressource</label>
@@ -74,8 +73,7 @@
 
             </div>
             <!-- end Card -->
-                                <?php var_dump($_POST) ?>
-
+            
         </div>
     </div>
 </div>

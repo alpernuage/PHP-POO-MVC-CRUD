@@ -27,7 +27,18 @@
                     <a href="create-ressource.php" class="btn btn-success float-end"><span class="h5">+</span> Nouvelle ressource</a>
                 </div>
             </div>
+        <?php 
+        if (!empty($error)) {
+            switch($error) {
+                case "NoRessource" : 
+                    echo "l'id de la ressource n'existe pas";
+                    break;
+                default : echo "une erreur est survenue";
+                break;
+            }
 
+        }
+        ?>
             <?php foreach ($ressources as $ressource) : ?>
                 <div class="card">
                     <div class="card-body">

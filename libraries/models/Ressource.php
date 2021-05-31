@@ -9,12 +9,7 @@ class Ressource
         $this->pdo = \Database::getPdo();
     }
 
-    /**
-     * Retourne la liste des ressources classées par date de création
-     *
-     * @param integer $id
-     * @return void
-     */
+    // Retourne la liste des ressources classées par date de création
     public function findRessourceDetails()
     {
         $resultats = $this->pdo->query("SELECT ressource.id, ressource.titre, ressource.lien_serveur, ressource.date_creation, 
@@ -37,12 +32,12 @@ class Ressource
      * Retourne la ressource sélectionnée
      *
      * @param integer $id
-     * @return void
+     * 
      */
     public function find(int $id)
     {
         $query = $this->pdo->prepare("SELECT ressource.id, ressource.titre, ressource.lien_serveur, ressource.date_creation, 
-        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie, 
+        statut_ressource.libelle AS statutRessource, type_ressource.libelle AS typeRessource, categorie.libelle AS categorie, categorie.id AS categorie_id,
         utilisateur.prenom AS auteurPrenom, utilisateur.nom AS auteurNom
         FROM ressource 
         INNER JOIN categorie ON categorie.id = ressource.categorie_id 
@@ -58,12 +53,7 @@ class Ressource
         return $ressource;
     }
 
-    /**
-     * Créer une ressource
-     * 
-     * @param integer $ressource_id
-     * @return void
-     */
+    //  Créer une ressource
     public function createRessource(string $newTitre, string $newLienServeur, string $newCategorieId, string $newTypeId, string $newStatutId)
     {
         $query = $this->pdo->prepare("INSERT INTO ressource 
@@ -85,12 +75,7 @@ class Ressource
         ]);
     }
 
-    /**
-     * Modifier la ressource sélectionnée
-     * 
-     * @param integer $ressource_id
-     * @return void
-     */
+    //  Modifier la ressource sélectionnée
     public function modifyRessource(int $ressource_id, string $newTitre, string $newLienServeur, string $newCategorieId, string $newTypeId, string $newStatutId)
     {
         $query = $this->pdo->prepare("UPDATE ressource 
