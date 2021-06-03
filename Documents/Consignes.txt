@@ -1,0 +1,18 @@
+Consignes
+Détails :
+•	Récupérer la base de données du précédent travail comme base pour ce projet
+•	Faire un CRUD sur l'entité ressource avec les tables liées.
+•	Les pages suivantes sont demandées :
+    o	une page qui liste toutes les ressources ; 
+    o	pouvoir sélectionner une ressource et l'afficher ;
+    o	dans la liste et le détail d'une ressource avoir les boutons d'édition et de suppression d'une ressource ;
+    o	depuis la liste des ressources avoir un bouton de création d'une ressource ;
+    o	une page de création de ressource ;
+    o	une page d'édition de ressource ;
+    o	pouvoir supprimer une ressource depuis le bouton prévu à cet effet.
+
+Ce travail sera à faire en PHP natif (7.x) sans framework mais avec la mise en place du design pattern MVC
+
+•	Implémenter les tables entité/model qui sont liées à ressource, comme user/auteur, catégorie et type de ressource sans pour autant faire de CRUD dessus. 
+•	Sur la page de création/modification des ressources : choisir la catégorie et le type de ressource via des menus déroulants. Ces menus déroulants doivent être remplis avec les données des tables de la base de données associées.
+•	Pour ce qui est du statut ou de l'accessibilité utiliser des radio bouton ou autres balises avec des booléens. 

@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <form method="POST" action="save-ressource.php">
+                            <form method="POST" action="create-ressource.php">
                                 <div class="row">
                                     <div class="col mb-2">
                                         <h1>Créer une ressource</h1>
